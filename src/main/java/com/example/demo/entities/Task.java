@@ -1,6 +1,9 @@
 package com.example.demo.entities;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 import java.time.LocalDateTime;
 
 @Entity
@@ -11,12 +14,17 @@ public class Task {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull(message = "El título es obligatorio.")
+    @Size(min = 1, max = 100, message = "El título debe tener entre 1 y 100 caracteres.")
     @Column(nullable = false)
     private String title;
 
+    @Size(max = 500, message = "La descripción no puede tener más de 500 caracteres.")
     @Column(length = 500)
     private String description;
 
+    @NotNull(message = "El estado es obligatorio.")
+    @Pattern(regexp = "^(Pendiente|En Progreso|Completada)$", message = "El estado debe ser 'Pendiente', 'En Progreso' o 'Completada'.")
     @Column(nullable = false)
     private String status;
 
